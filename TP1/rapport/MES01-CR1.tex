@@ -1,0 +1,25 @@
+https://youtu.be/PZHESOq-Gkw\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage[french]{babel}
+\usepackage{geometry}
+
+\geometry{hmargin=2.5cm, vmargin=3.5cm}
+
+\title{FEniCS simulation of Eshelby's circular inclusion problem}
+\author{\textsc{Latyshev} Andrey, \textsc{Ewald} Guillaume}
+\date{15 October 2021}
+
+
+
+\begin{document}
+
+\maketitle
+
+Cette note développe la résolution numérique du problème d'Eshelby d'une inclusion circulaire dans un milieu. Pour ce, une inclusion circulaire homogène et isotrope dans une matrice elle aussi circulaire et homogène et isotrope est considérée. Le problème est posé dans le cadre de l'élasticité linéaire. Les lois de comportement pour les deux matériaux sont rappelées :
+\begin{equation}
+    \underline{\underline{\sigma}} = \lambda \text{tr}\underline{\underline{\varepsilon}} \underline{\underline{I}} - 2\mu\underline{\underline{\varepsilon}} = \frac{E}{1+\nu}\underline{\underline{\varepsilon}} + \frac{E\nu}{(1+\nu)(1-2\nu))} \text{tr}\underline{\underline{\varepsilon}}
+\end{equation}
+avec $(\lambda, \mu)$ les coefficients de Lamé, $E$ le module d'Young et $\nu$ le coefficient de Poisson. Les valeurs de ces coefficients différent en fonction du matériau. Les coefficients relatifs à l'inclusion et à la mtrice seront respectivement indicés par un "$i$" et un "$m$".  
+
+\end{document}
