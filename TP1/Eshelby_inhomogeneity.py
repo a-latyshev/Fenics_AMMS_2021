@@ -197,8 +197,8 @@ class solution :
     
     self.error = dolfin.errornorm(u_ref, self.usol, 'L2')
 
-    print("LOG")
-    print("average strain in inclusion = ", strain_moy_inc)
+    # print("LOG")
+    # print("average strain in inclusion = ", strain_moy_inc)
     # print("average strain in matrix = ", strain_moy_mat)
     # print("deviation in inclustion = ", deviation_inc)
     # print("deviation in matrix = ", deviation_mat)
@@ -206,14 +206,15 @@ class solution :
     # print("erreur relative = ", (strain_moy_inc[2] + b)/b)
     print("erreur L2 : ", self.error)
 
-    liste_x = np.linspace(-modl.R_out, modl.R_out, num=100)
+    # eps = 0.1
+    # liste_x = np.linspace(-modl.R_out+eps, modl.R_out-eps, num=100)
 
-    u_formule = 0.0*liste_x
-    u_solution = 0.0*liste_x
+    # u_formule = 0.0*liste_x
+    # u_solution = 0.0*liste_x
 
-    for k, x_k in enumerate(liste_x):
-      u_formule[k] = u_ref([x_k,0.0])[1]
-      u_solution[k] = self.usol(x_k, 0.)[1]
+    # for k, x_k in enumerate(liste_x):
+    #   u_formule[k] = u_ref([x_k,0.0])[1]
+    #   u_solution[k] = self.usol(x_k, 0.)[1]
   
     # plt.plot(liste_x, u_formule)
     # plt.plot(liste_x, u_solution)
