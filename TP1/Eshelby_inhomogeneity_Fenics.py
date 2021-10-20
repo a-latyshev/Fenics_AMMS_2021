@@ -2,6 +2,13 @@ import dolfin
 import matplotlib.pyplot as plt
 import mshr
 import numpy as np
+from ufl import nabla_grad
+
+def stress(eps, lamb, mu):
+     return lamb*dolfin.tr(eps)*dolfin.Identity(2) + 2*mu*eps
+
+def strain(u):
+    return 0.5*(nabla_grad(u) + nabla_grad(u).T)
 
 R_in = 1.0 # radius of the inclusion
 R_out = 3.9 # radius of the outter matrix
@@ -51,18 +58,6 @@ mu_m = 0.5 * E_m / (1 + nu_m)
 lamb_m = 2 * mu_m * nu_m / (1 - 2*nu_m)
 mu_i = 0.5 * E_i / (1 + nu_i)
 lamb_i = 2 * mu_i * nu_i / (1 - 2*nu_i)
-
-# sigma(eps)
-def stress(eps, lamb, mu):
-    # return dolfin.as_tensor([[lamb*(eps[0,0] + eps[1,1]) + 2*mu*eps[0,0], 2*mu*eps[0,1]],
-    #                          [2*mu*eps[0,1], lamb*(eps[0,0] + eps[1,1]) + 2*mu*eps[1,1]]])
-     return lamb*dolfin.tr(eps)*dolfin.Identity(2) + 2*mu*eps
-
-# eps(u)
-from ufl import nabla_grad
-
-def strain(u):
-    return 0.5*(nabla_grad(u) + nabla_grad(u).T)
 
 element = dolfin.VectorElement('P', 
                                cell=mesh.ufl_cell(), 
