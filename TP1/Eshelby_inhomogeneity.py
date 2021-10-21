@@ -46,12 +46,13 @@ class model :
 
   u_boundary = dolfin.Expression(("-x[1]", "-x[0]"), degree=1)
 
-  def __init__(self, A_in=1.0, B_in=1.0, R_out=3.9, degreeFE=1, h=0.35) : 
+  def __init__(self, A_in=1.0, B_in=1.0, theta=0, R_out=3.9, degreeFE=1, h=0.35) : 
     self.A_in = A_in
     self.B_in = B_in
     self.R_out = R_out
     self.degreeFE = degreeFE
     self.h = h
+    self.theta=theta
 
   def mesh_generator(self) :
     L_in = 4 * (np.pi * self.A_in * self.B_in  + (self.A_in - self.B_in)**2) / (self.A_in + self.B_in)
@@ -64,6 +65,8 @@ class model :
 
     origin = dolfin.Point(0., 0.)
     Omega_i = mshr.Ellipse(origin, self.A_in, self.B_in, segments=N_in)
+    Omega_i = mshr.CSGRotation(Omega_i, self.theta)
+
     Omega = mshr.Circle(origin, self.R_out, segments=N_out)
 
 
