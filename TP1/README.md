@@ -1,18 +1,19 @@
 # README pour TP MES01-CR1
 
-Cette archive contient trois fichiers *.py :
+Cette archive contient quatre fichiers *.py :
  - EshelbyInhomogeneity.py
  - EshelbyStudies.py
  - EshelbyUser.py
+ - EshelbyEllipse.py
 
 ## EshelbyInhomogeneity.py
 
 Ce fichier contient la fonctionnalité basique du project. Il comporte :
  * classe `materio` - l'information sur les propriétés de matériaux
- * classe `model`, qui contient les paramétrés de la taille du domaine et du maillage et le degrés de liberté de l'espace de la solution. Elle généré le maillage à partir de la fonction `mesh_generator`
+ * classe `model`, qui contient les paramétrés de la taille du domaine et du maillage et le degrés de liberté de l'espace de la solution. Elle génère le maillage à partir de la fonction `mesh_generator`
  * classe `solution`, qui construit la formulation variationnelle dans la fonction `variational_problem`, résout le problème et fait des calculs dans la fonction  `solution_maker` et calcule une erreur exacte dans `behind_solution`
 
-Il y a un paramètre pour initializer la classe  `solution` - `mod`. Quand on veut trouver la solution pour le cas incompressible, il faut met cette valeur égale à `"incompressible"`.
+Il y a un paramètre pour initializer la classe  `solution` - `mod`. Quand on veut trouver la solution pour le cas incompressible, il faut met son valeur égale à `"incompressible"`.
 
 ## EshelbyStudies.py
 
@@ -51,3 +52,11 @@ Figure 6
   ou utiliser la fonction
   inclusion_density_influence()
   
+## EshelbyEllipse.py
+
+Ce fichier est basé sur EshelbyInhomogeneity.py. Il fait la modélisation de l'inclusion sous la forme elliptique. Il comporte :
+ * classe `materio` se n'est pas changée
+ * nouveaux paramètres dans la classe `model`. `A_in` et `B_in` sont les deux axes de l'ellipse et `theta` est l'angle de rotation de l'inclusion par rapport à l'axe X du système 
+ * classe `solution` a les même méthodes sauf `behind_solution`
+
+Il y a un paramètre pour initializer la classe  `solution` - `mod`. Quand on veut trouver la solution pour le cas incompressible, il faut met son valeur égale à `"incompressible"`.

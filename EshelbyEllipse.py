@@ -4,15 +4,13 @@
 # # FEniCS simulation of Eshelby's inclusion problem
 
 import dolfin
-import matplotlib.pyplot as plt
 import mshr
 import numpy as np
-from eshelby import EshelbyDisk
 
 #Hook's law
 def stress(eps, lamb, mu):
   return lamb*dolfin.tr(eps)*dolfin.Identity(2) + 2*mu*eps
-
+ 
 # eps(u)
 def strain(u):
   grad_u = dolfin.nabla_grad(u)
@@ -114,61 +112,6 @@ class solution :
   def solve(self, model) :
     boundary_conditions = dolfin.DirichletBC(self.V, model.u_boundary, "on_boundary")
     dolfin.solve(self.bilinear_form == self.linear_form, self.usol, boundary_conditions, solver_parameters={"linear_solver": "mumps"})
-    
-  def getExactError(self, material, model) :
-    solution_ref = EshelbyDisk(model.R_out/model.A_in, material.E_i/material.E_m, material.nu_i, material.nu_m)
-    u_ref = solution_ref.to_expression(model.A_in)
-    self.error = dolfin.errornorm(u_ref, self.usol, 'L2')
-  
-  def post_processing(self, material, modl) :
-
-    strain_field_space = dolfin.FunctionSpace(modl.mesh, 'DG', 0)
-    self.strain_field = [dolfin.project(strain(self.usol)[min(i,1), i%2], strain_field_space) for i in range(3)]
-
-    # self.strain_moy_inc = self.vector_av(self.strain_field, modl.INCLUSION_ID, modl.dx)
-    # strain_moy_mat = self.vector_av(self.strain_field, modl.MATRIX_ID, modl.dx)
-    # strain_moy = self.vector_av(self.strain_field, 'all', modl.dx)
-
-    # self.deviation_inc = [dolfin.assemble(abs(self.strain_field[i]-self.strain_moy_inc[i])*modl.dx(modl.INCLUSION_ID))/self.strain_moy_inc[i] for i in range(3)]
-    # deviation_mat = [dolfin.assemble(abs(self.strain_field[i]-strain_moy_mat[i])*modl.dx(modl.MATRIX_ID))/strain_moy_mat[i] for i in range(3)]
-    # deviation_tot = [dolfin.assemble(abs(self.strain_field[i]-strain_moy[i])*modl.dx)/strain_moy[i] for i in range(3)]
-
-    # q = (3-4*material.nu_m)/(8*material.mu_m*(1-material.nu_m))
-    # b = 1/(1+2*q*(material.mu_i-material.mu_m))
-
-    solution_ref = EshelbyDisk(modl.R_out/modl.A_in, material.E_i/material.E_m, material.nu_i, material.nu_m)
-    u_ref = solution_ref.to_expression(modl.A_in)
-
-    # Execute this to obtain the plot of the analytical solution
-    # V_ref = dolfin.VectorFunctionSpace(modl.mesh, 'P', degree=modl.degreeFE)
-    # u_ref_num = dolfin.interpolate(u_ref, V_ref)
-    # dolfin.plot(0.15*u_ref_num, mode="displacement")
-    
-    # self.error = dolfin.errornorm(u_ref, self.usol, 'L2')
-    self.error = dolfin.errornorm(u_ref, self.usol, 'L2', degree_rise=5)
-
-    # print("LOG")
-    # print("average strain in inclusion = ", strain_moy_inc)
-    # print("average strain in matrix = ", strain_moy_mat)
-    # print("deviation in inclustion = ", deviation_inc)
-    # print("deviation in matrix = ", deviation_mat)
-    # print('eps_xy_inclusion = ',-b)
-    # print("erreur relative = ", (strain_moy_inc[2] + b)/b)
-    # print("erreur L2 : ", self.error)
-
-    # eps = 0.1
-    # liste_x = np.linspace(-modl.R_out+eps, modl.R_out-eps, num=100)
-
-    # u_formule = 0.0*liste_x
-    # u_solution = 0.0*liste_x
-
-    # for k, x_k in enumerate(liste_x):
-    #   u_formule[k] = u_ref([x_k,0.0])[1]
-    #   u_solution[k] = self.usol(x_k, 0.)[1]
-  
-    # plt.plot(liste_x, u_formule)
-    # plt.plot(liste_x, u_solution)
-    # plt.show()
 
   def __init__(self, material, model) :
     
