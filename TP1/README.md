@@ -58,5 +58,3 @@ Ce fichier est basé sur EshelbyInhomogeneity.py. Il fait la modélisation de l'
  * classe `materio` se n'est pas changée
  * nouveaux paramètres dans la classe `model`. `A_in` et `B_in` sont les deux axes de l'ellipse et `theta` est l'angle de rotation de l'inclusion par rapport à l'axe X du système 
  * classe `solution` a les même méthodes sauf `behind_solution`
-
-Il y a un paramètre pour initializer la classe  `solution` - `mod`. Quand on veut trouver la solution pour le cas incompressible, il faut met son valeur égale à `"incompressible"`.
