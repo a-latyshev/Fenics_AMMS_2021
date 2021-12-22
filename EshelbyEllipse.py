@@ -113,6 +113,10 @@ class solution :
     boundary_conditions = dolfin.DirichletBC(self.V, model.u_boundary, "on_boundary")
     dolfin.solve(self.bilinear_form == self.linear_form, self.usol, boundary_conditions, solver_parameters={"linear_solver": "mumps"})
 
+  def post_processing(self, model) :
+    strain_field_space = dolfin.FunctionSpace(model.mesh, 'DG', 0)
+    self.strain_field = [dolfin.project(strain(self.usol)[min(i,1), i%2], strain_field_space) for i in range(3)]
+
   def __init__(self, material, model) :
     
     material.mu_m, material.lamb_m = material.lame_from_E_nu(material.E_m, material.nu_m) 
